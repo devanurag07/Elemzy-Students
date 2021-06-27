@@ -1,0 +1,14 @@
+#################
+POST  http://localhost:8001/api/auth/login
+Content-Type: application/json
+
+{
+    "email":"student1@gmail.com",
+    "password":"demo@1234"
+}
+
+
+#################
+GET   http://localhost:8001/api/student/classroom/documents?subject_pk=2
+Authorization: Token 21d2c17332825c46c0842e79127b03efb8297a4cb5ad0071dc213e9ccecf1da0
+
