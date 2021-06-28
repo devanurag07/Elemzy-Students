@@ -9,6 +9,10 @@ Content-Type: application/json
 
 
 #################
-GET   http://localhost:8001/api/student/classroom/documents?subject_pk=2
-Authorization: Token 21d2c17332825c46c0842e79127b03efb8297a4cb5ad0071dc213e9ccecf1da0
+GET   http://localhost:8001/api/student/classroom/notes?subject_pk=1
+Authorization: Token b6ce25afe703811801b909b9b830c5c6c7f2d0d4a9eea4fa1531bb3db950d298
 
+
+##################
+GET   http://localhost:8001/api/student/classroom/assignments?subject_pk=1
+Authorization: Token b6ce25afe703811801b909b9b830c5c6c7f2d0d4a9eea4fa1531bb3db950d298

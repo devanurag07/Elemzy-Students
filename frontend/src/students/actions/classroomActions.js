@@ -2,6 +2,7 @@ import axios from "axios";
 import store from "../../store";
 import {
   LOAD_CLASSROOM,
+  LOAD_SUBJECT_ASSIGNMENTS,
   LOAD_SUBJECT_NOTES,
   SET_CURRENT_SUBJECT,
 } from "./types";
@@ -65,6 +66,25 @@ export const loadSubjectNotes = (subject_pk) => {
         dispatch({
           type: LOAD_SUBJECT_NOTES,
           payload: notes_list,
+        });
+      }
+    });
+};
+
+export const loadSubjectAssignments = (subject_pk) => {
+  const config = getTokenConfig();
+
+  axios
+    .get(
+      `${API_URL}/api/student/classroom/assignments?subject_pk=${subject_pk}`,
+      config
+    )
+    .then((resp) => {
+      if (resp.status == 200) {
+        const assignments_list = resp.data;
+        dispatch({
+          type: LOAD_SUBJECT_ASSIGNMENTS,
+          payload: assignments_list,
         });
       }
     });

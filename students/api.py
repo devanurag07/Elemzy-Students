@@ -1,20 +1,24 @@
+from django.utils import tree
 from rest_framework import response
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, NOT
 from django.shortcuts import get_object_or_404
 
 
 # Models
 from teachers.models import Assignment, Document, Notes, Subject
+from teachers.models import GradedAssignment
 
 # Serializers
 from .serializers import AssignmentSerializer, ClassRoomSerializer, DocumentSerializer, NoteSerializer
-
-
 # Utils
 from .utils import get_student, get_classroom, hasAccessToSubject
+
+
+no_access_to_subject_msg = "You do not have access to this subject"
 
 
 class ClassroomAPI(APIView):
@@ -57,9 +61,8 @@ def getSubjectContent(request, ContentModel, ContentModelSerializer):
 
             return Response(response_data)
         else:
-            response_data = "You do not have any permission to view this subject."
 
-            return Response(response_data, status=status.HTTP_401_UNAUTHORIZED)
+            return Response(no_access_to_subject_msg, status=status.HTTP_401_UNAUTHORIZED)
 
     else:
         return Response("No subject provided")
@@ -83,10 +86,32 @@ class DocumentAPI(APIView):
         return response
 
 
-class AssignmentAPI(APIView):
+class AssignmentAPI(ModelViewSet):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def list(self, request):
 
-        response = getSubjectContent(request, Assignment, AssignmentSerializer)
-        return response
+        student = get_student(request=request)
+        subject_pk = request.query_params.get("subject_pk", "None")
+
+        if(not subject_pk.isnumeric()):
+            return Response("Invalid Subject Pk its not provied or its a string")
+
+        subject = get_object_or_404(Subject, pk=subject_pk)
+
+        hasAccess = hasAccessToSubject(subject, student)
+
+        if(hasAccess):
+            assignments = Assignment.objects.filter(subject=subject)
+
+            def is_graded(assignment): return not(GradedAssignment.objects.filter(
+                assignment=assignment, student=student).exists())
+            non_graded_assignments = filter(is_graded, assignments)
+
+            response_data = AssignmentSerializer(
+                non_graded_assignments, many=True).data
+
+            return Response(response_data)
+
+        else:
+            return Response(no_access_to_subject_msg, status=status.HTTP_401_UNAUTHORIZED)
