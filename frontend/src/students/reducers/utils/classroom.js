@@ -18,6 +18,11 @@ export const setCurrentSubjectRe = (state, action) => {
   }
   return {
     ...state,
-    currentSubject: { notes: [], documents: [], assignments: [] },
+    currentSubject: {
+      notes: [],
+      documents: [],
+      assignments: [],
+      subject_exams_results: [],
+    },
   };
 };

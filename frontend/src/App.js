@@ -11,9 +11,10 @@ import Login from "./pages/Login";
 import Forgot from "./pages/Forgot";
 import Logout from "./pages/Logout";
 import Student from "./pages/Student";
-import { loadUser} from "./actions/auth";
+import { loadUser } from "./actions/auth";
 import { setMobile, setFullWidth } from "./actions/style";
 import { SnackbarProvider } from "notistack";
+import "./App.css";
 
 // import "./teachers/css/style.scss";
 

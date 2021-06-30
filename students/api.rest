@@ -10,9 +10,29 @@ Content-Type: application/json
 
 #################
 GET   http://localhost:8001/api/student/classroom/notes?subject_pk=1
-Authorization: Token b6ce25afe703811801b909b9b830c5c6c7f2d0d4a9eea4fa1531bb3db950d298
+Authorization: Token 0da22607e4cec524e8ab2eacbcfe7bbfeb4dd07063d984414afd494b365cea0e
 
 
 ##################
-GET   http://localhost:8001/api/student/classroom/assignments?subject_pk=1
-Authorization: Token b6ce25afe703811801b909b9b830c5c6c7f2d0d4a9eea4fa1531bb3db950d298
+GET   http://localhost:8001/api/student/classroom/assignments
+Authorization: Token 0da22607e4cec524e8ab2eacbcfe7bbfeb4dd07063d984414afd494b365cea0e
+
+
+
+##################
+GET   http://localhost:8001/api/student/classroom/rankingdocuments
+Authorization: Token 0da22607e4cec524e8ab2eacbcfe7bbfeb4dd07063d984414afd494b365cea0e
+
+
+
+
+
+##################
+POST   http://localhost:8001/api/student/classroom/rankingdocuments/
+Authorization: Token 0da22607e4cec524e8ab2eacbcfe7bbfeb4dd07063d984414afd494b365cea0e
+Content-Type: application/json
+
+{
+    "name":"Document"
+}
+

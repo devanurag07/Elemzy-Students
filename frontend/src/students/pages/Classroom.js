@@ -21,15 +21,6 @@ function Classroom() {
   const classes = useStyles();
   const classroom = useSelector((state) => state.classroom.classroom);
 
-  useEffect(() => {
-    loadClassroom();
-  }, [""]);
-
-  useEffect(() => {
-    setCurrentSubject(1);
-    console.log("setting");
-  }, [classroom.id]);
-
   return (
     <div className={classes.root}>
       <Typography variant="h5" className={classes.classroomHeading}>

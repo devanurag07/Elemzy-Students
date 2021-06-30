@@ -301,6 +301,7 @@ class DocumentResult(models.Model):
     exam = models.OneToOneField(
         Exam, on_delete=models.CASCADE, related_name="document_result")
     document = models.FileField(upload_to="result_documents/")
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "document_results"

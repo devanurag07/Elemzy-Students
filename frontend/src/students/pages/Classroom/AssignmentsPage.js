@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   loadSubjectAssignments,
@@ -28,10 +28,14 @@ const AssignmentsPage = () => {
 
   const currentSubjectPk = currentSubject.id;
 
+  const [quizFormAssignment, setQuizFormAssignment] = useState({});
+  const [quizFormOpen, setQuizFormOpen] = useState(false);
+
   useEffect(() => {
     if (currentSubjectPk !== undefined) {
       loadSubjectAssignments(currentSubjectPk);
     }
+    console.log("Hi hang");
   }, [currentSubjectPk]);
 
   const classes = useStyles();
@@ -43,12 +47,20 @@ const AssignmentsPage = () => {
       </Typography>
       <Paper className={classes.root}>
         {assignments_list.map((assignment) => {
-          return <AssignmentListItem assignment={assignment} />;
+          return (
+            <AssignmentListItem
+              assignment={assignment}
+              setQuizFormAssignment={setQuizFormAssignment}
+              setFormOpen={setQuizFormOpen}
+            />
+          );
         })}
       </Paper>
 
       <QuizForm
-        assignment={assignments_list.length > 0 ? assignments_list[0] : {}}
+        assignment={quizFormAssignment}
+        formOpen={quizFormOpen}
+        setFormOpen={setQuizFormOpen}
       />
     </div>
   );
@@ -81,8 +93,19 @@ const assignmentListStyles = makeStyles((theme) => ({
   },
 }));
 
-const AssignmentListItem = ({ assignment }) => {
+const AssignmentListItem = ({
+  assignment,
+  setQuizFormAssignment,
+  setFormOpen,
+}) => {
   const classes = assignmentListStyles();
+
+  const takeQuizBtnClickHandle = () => {
+    setQuizFormAssignment(assignment);
+    setFormOpen(true);
+    console.log("Hi");
+  };
+
   return (
     <Paper className={classes.root}>
       <Grid container>
@@ -92,10 +115,17 @@ const AssignmentListItem = ({ assignment }) => {
           </Typography>
         </Grid>
         <Grid item sm={4}>
-          <Typography className={classes.noOfQuestions}>5 Questions</Typography>
+          <Typography className={classes.noOfQuestions}>
+            {assignment.no_of_questions} Questions
+          </Typography>
         </Grid>
         <Grid item sm={4} style={{ justifyContent: "flex-end" }}>
-          <Button variant="contained" color="primary" size="small">
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={takeQuizBtnClickHandle}
+          >
             Take QUIZ
           </Button>
         </Grid>

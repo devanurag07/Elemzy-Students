@@ -1,6 +1,8 @@
+from django.db import models
 from django.db.models import fields
+from django.db.models.base import Model
 from rest_framework.serializers import ModelSerializer, Serializer
-from teachers.models import ClassRoom, Notes, Document, Semester, Teacher
+from teachers.models import ClassRoom, DocumentResult, Notes, Document, Semester, Teacher
 from teachers.models import RankingDocument, Subject
 from teachers.models import Assignment, GradedAssignment, Choice, Question
 from rest_framework import serializers
@@ -113,5 +115,32 @@ class AssignmentSerializer(ModelSerializer):
 
     class Meta:
         fields = ['title', "subject", "created_at",
-                  "no_of_questions", "questions", 'teacher_name', 'deadline']
+                  "no_of_questions", "questions", 'teacher_name', 'deadline', 'id']
         model = Assignment
+
+
+class GradedAssignmentSerializer(ModelSerializer):
+
+    class Meta:
+        model = GradedAssignment
+        fields = "__all__"
+
+
+# Ranking
+class RankingDocumentSerializer(ModelSerializer):
+
+    class Meta:
+        model = RankingDocument
+        fields = ["name", "category", "description", "document"]
+
+
+class DocumentResultSerializer(ModelSerializer):
+    
+    exam_name=serializers.SerializerMethodField()
+
+    def get_exam_name(self,result_obj):
+        return result_obj.exam.title
+
+    class Meta:
+        model = DocumentResult
+        fields = "__all__"

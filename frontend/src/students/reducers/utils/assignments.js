@@ -10,3 +10,16 @@ export const loadSubjectAssignmentsRe = (state, action) => {
 
   return newState;
 };
+
+export const removeAssignmentRe = (state, action) => {
+  const assignment_id = action.payload;
+
+  const newState = produce(state, (draft) => {
+    const assignments = draft.currentSubject.assignments;
+    draft.currentSubject.assignments = assignments.filter((assignment) => {
+      return assignment.id !== assignment_id;
+    });
+  });
+
+  return newState;
+};
