@@ -7,6 +7,7 @@ import { Route } from "react-router-dom";
 import NotesPage from "./Classroom/NotesPage";
 import AssignmentsPage from "./Classroom/AssignmentsPage";
 import { useSelector } from "react-redux";
+import LeaveRequestsPage from "./Classroom/LeaveRequestsPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,10 @@ function Classroom() {
         </Route>
         <Route path="/student/classroom/assignments">
           <AssignmentsPage />
+        </Route>
+
+        <Route path="/student/classroom/leaverequests">
+          <LeaveRequestsPage />
         </Route>
       </div>
     </div>

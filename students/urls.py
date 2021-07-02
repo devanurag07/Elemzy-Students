@@ -5,11 +5,15 @@ from django.urls import path
 
 
 from .api import SubjectExamsResultAPI
+from .api import LeaveRequestAPI
 
 router = routers.DefaultRouter()
 
 router.register("classroom/rankingdocuments",
                 RankingDocumentAPI, basename="rankingdocs")
+
+router.register("classroom/leaverequests",
+                LeaveRequestAPI, basename="leaverequets")
 
 
 urlpatterns = [

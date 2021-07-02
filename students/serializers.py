@@ -2,10 +2,11 @@ from django.db import models
 from django.db.models import fields
 from django.db.models.base import Model
 from rest_framework.serializers import ModelSerializer, Serializer
-from teachers.models import ClassRoom, DocumentResult, Notes, Document, Semester, Teacher
+from teachers.models import ClassRoom, DocumentResult, LeaveRequest, Notes, Document, Semester, Teacher
 from teachers.models import RankingDocument, Subject
 from teachers.models import Assignment, GradedAssignment, Choice, Question
 from rest_framework import serializers
+
 
 from main.models import UserProfile
 import random
@@ -135,12 +136,19 @@ class RankingDocumentSerializer(ModelSerializer):
 
 
 class DocumentResultSerializer(ModelSerializer):
-    
-    exam_name=serializers.SerializerMethodField()
 
-    def get_exam_name(self,result_obj):
+    exam_name = serializers.SerializerMethodField()
+
+    def get_exam_name(self, result_obj):
         return result_obj.exam.title
 
     class Meta:
         model = DocumentResult
         fields = "__all__"
+
+
+class LeaveRequestSerializer(ModelSerializer):
+    class Meta:
+        model = LeaveRequest
+        # fields = "__all__"
+        exclude=("student",)

@@ -202,3 +202,37 @@ export const loadSubjectExamResults = (subject_pk) => {
     }
   });
 };
+
+export const addLeaveRequest = (formData, setFormErrors) => {
+  const config = getTokenConfig();
+
+  const formDataObj = new FormData();
+
+  for (let fieldname in formData) {
+    const formValue = formData[fieldname];
+    formDataObj.append(fieldname, formValue);
+  }
+
+  axios
+    .post(
+      `${API_URL}/api/student/classroom/leaverequests/`,
+      formDataObj,
+      config
+    )
+    .then((resp) => {
+      if (resp.status == 201) {
+        console.log("Created");
+        console.log(resp.data);
+      }
+    })
+    .catch((err) => {
+      if (err.response.status == 400) {
+        if (err.response.data) {
+          if (err.response.data.errors) {
+            console.log(err.response.data);
+            setFormErrors(err.response.data.errors);
+          }
+        }
+      }
+    });
+};

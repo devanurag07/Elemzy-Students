@@ -13,7 +13,7 @@ from teachers.models import Assignment, Document, DocumentResult, Notes, Questio
 from teachers.models import GradedAssignment
 
 # Serializers
-from .serializers import AssignmentSerializer, ClassRoomSerializer, DocumentResultSerializer, DocumentSerializer, GradedAssignmentSerializer, NoteSerializer, RankingDocumentSerializer
+from .serializers import AssignmentSerializer, ClassRoomSerializer, DocumentResultSerializer, DocumentSerializer, GradedAssignmentSerializer, LeaveRequestSerializer, NoteSerializer, RankingDocumentSerializer
 # Utils
 from .utils import get_student, get_classroom, hasAccessToSubject
 
@@ -234,3 +234,27 @@ class SubjectExamsResultAPI(APIView):
 
         else:
             return Response(no_access_to_subject_msg, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class LeaveRequestAPI(ModelViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        pass
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        student = get_student(request)
+
+        leave_request_form = LeaveRequestSerializer(data=data)
+
+        if(leave_request_form.is_valid()):
+            leave_request = leave_request_form.save(student=student)
+            response_data = LeaveRequestSerializer(leave_request).data
+
+            return Response(response_data, status=status.HTTP_201_CREATED)
+
+        else:
+            errors = leave_request_form.errors
+
+            return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)

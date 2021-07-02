@@ -102,7 +102,7 @@ function ClassroomNav({ style }) {
           className={isSelectedLink(3) ? classes.selectedLink : classes.link}
         >
           <Link
-            to="/students/classroom/documents"
+            to="/student/classroom/documents"
             onClick={() => handleLinkClick(3)}
           >
             Documents
@@ -115,7 +115,7 @@ function ClassroomNav({ style }) {
           className={isSelectedLink(4) ? classes.selectedLink : classes.link}
         >
           <Link
-            to="/students/classroom/leaverequests"
+            to="/student/classroom/leaverequests"
             onClick={() => handleLinkClick(4)}
           >
             Leave Requests
