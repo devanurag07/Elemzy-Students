@@ -55,7 +55,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    
+
 ]
 
 ROOT_URLCONF = "reon.urls"
@@ -84,7 +84,7 @@ WSGI_APPLICATION = "reon.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(r"/media/devil/C/Users/Devil/Desktop/Project - 1 -Main/Project/Common Database", 'db.sqlite3'),
+        'NAME': os.path.join(r"/media/devil/C/Desktop/Project - 1 -Main/Project/Common Database", 'db.sqlite3'),
     }
 }
 
@@ -108,9 +108,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
 ]
 
 
@@ -150,7 +150,8 @@ AUTH_USER_MODEL = "main.UserProfile"
 
 CORS_ORIGIN_ALLOW_ALL = False
 
-CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:8000", "http://localhost:3000", "http://localhost:3001")
+CORS_ORIGIN_WHITELIST = ("http://127.0.0.1:8000",
+                         "http://localhost:3000", "http://localhost:3001")
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
@@ -162,5 +163,5 @@ EMAIL_HOST_PASSWORD = "!ntuiti0n"  # P@ssw0rd@753"  # gmail password
 STATIC_ROOT = os.path.join(BASE_DIR, "frontend/build/apache/static")
 
 
-MEDIA_URL='/media/'
-MEDIA_ROOT=os.path.join(BASE_DIR,"media")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
