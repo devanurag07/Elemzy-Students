@@ -1,5 +1,6 @@
 from django.utils import tree
 from rest_framework import response
+from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
@@ -9,11 +10,11 @@ from django.shortcuts import get_object_or_404
 
 
 # Models
-from teachers.models import Assignment, Document, DocumentResult, Notes, Question, Student, Subject
+from teachers.models import Assignment, Document, DocumentResult, Exam, Notes, Question, Student, Subject, SubjectEntry, TimeTable
 from teachers.models import GradedAssignment
 
 # Serializers
-from .serializers import AssignmentSerializer, ClassRoomSerializer, DocumentResultSerializer, DocumentSerializer, GradedAssignmentSerializer, LeaveRequestSerializer, NoteSerializer, RankingDocumentSerializer
+from .serializers import AssignmentSerializer, ClassRoomSerializer, DocumentResultSerializer, DocumentSerializer, ExamSerializer, GradedAssignmentSerializer, LeaveRequestSerializer, NoteSerializer, RankingDocumentSerializer, SubjectEntrySerializer
 # Utils
 from .utils import get_student, get_classroom, hasAccessToSubject
 
@@ -258,3 +259,67 @@ class LeaveRequestAPI(ModelViewSet):
             errors = leave_request_form.errors
 
             return Response({"errors": errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# Time table
+# Ranking Graph
+# Upcoming events
+# Upcoming Examinations
+
+class DashboardDataAPI(APIView):
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        classroom = get_classroom(request=request)
+
+        # TimeTable
+
+        try:
+            timetable = TimeTable.objects.get(classroom=classroom)
+            subject_entries = SubjectEntry.objects.filter(
+                timetable=timetable).order_by("start_time")
+
+            timetable_data = SubjectEntrySerializer(
+                subject_entries, many=True).data
+            # timetable_data=SubjectEntrySeriazli( timetable.subject_entries.all())
+        except Exception as e:
+            timetable_data = []
+
+        # upcoming Exams
+        try:
+            classroom_exams = classroom.exams.all()
+
+            # Top 3
+            upcoming_exams = classroom_exams.order_by("-exam_date")[:3]
+            upcoming_exams_data = ExamSerializer(
+                upcoming_exams, many=True).data
+
+        except Exception as e:
+            upcoming_exams_data = []
+
+        # Graph Data
+
+        try:
+            # Getting current student
+            graphData = {}
+
+            student = get_student(request=request)
+            ranking_documents = student.ranking_documents.filter(
+                approved=True).order_by("created_date")
+
+            document_counter = 0
+
+            for ranking_document in ranking_documents:
+                document_counter += 1
+                # Getting month of the document
+                ranking_document_month = ranking_document.created_at.strftime(
+                    "%B")
+
+                graphData[ranking_document_month] = document_counter
+
+        except Exception as e:
+            print(e)
+            graphData = {"error": e}
+
+        return Response({"timetable": timetable_data, "ranking_graph": graphData, "upcoming_exams": upcoming_exams_data}, status=status.HTTP_200_OK)

@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import fields
 from django.db.models.base import Model
 from rest_framework.serializers import ModelSerializer, Serializer
-from teachers.models import ClassRoom, DocumentResult, LeaveRequest, Notes, Document, Semester, Teacher
+from teachers.models import ClassRoom, DocumentResult, Exam, LeaveRequest, Notes, Document, Semester, SubjectEntry, Teacher
 from teachers.models import RankingDocument, Subject
 from teachers.models import Assignment, GradedAssignment, Choice, Question
 from rest_framework import serializers
@@ -152,3 +152,19 @@ class LeaveRequestSerializer(ModelSerializer):
         model = LeaveRequest
         # fields = "__all__"
         exclude=("student",)
+
+
+
+## Student Dashboard Data
+
+class SubjectEntrySerializer(ModelSerializer):
+    class Meta:
+        model=SubjectEntry
+        fields="__all__"
+
+
+class ExamSerializer(ModelSerializer):
+
+    class Meta:
+        model=Exam
+        fields="__all__"
