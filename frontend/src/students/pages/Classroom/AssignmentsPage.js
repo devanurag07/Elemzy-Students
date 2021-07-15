@@ -103,7 +103,6 @@ const AssignmentListItem = ({
   const takeQuizBtnClickHandle = () => {
     setQuizFormAssignment(assignment);
     setFormOpen(true);
-    console.log("Hi");
   };
 
   return (

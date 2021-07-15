@@ -40,10 +40,31 @@ Content-Type: application/json
 
 ##################
 POST   http://localhost:8001/api/student/classroom/rankingdocuments/
-Authorization: Token 0da22607e4cec524e8ab2eacbcfe7bbfeb4dd07063d984414afd494b365cea0e
+Authorization: Token 9fe9fffc4fee4d60d5f58194621763676f6961d8ab8a0eded1027616a2c16c1c
 Content-Type: application/json
 
 {
     "name":"Document"
 }
+
+
+
+
+
+##################
+POST   http://localhost:8001/api/student/classroom/rankingdocuments/
+Authorization: Token 9fe9fffc4fee4d60d5f58194621763676f6961d8ab8a0eded1027616a2c16c1c
+Content-Type: application/json
+
+{
+    "name":"Document"
+}
+
+
+
+
+##################
+GET    http://localhost:8001/api/student/classroom/dashboard
+Authorization: Token 72134398c00724d529e39f2720133e71e44d9bc3adac50a1ffc03174e5214644
+Content-Type: application/json
 

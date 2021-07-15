@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
+
+// Material UI Imports
 import {
-  Grid,
   Typography,
   Dialog,
   DialogActions,
@@ -12,19 +13,21 @@ import {
 } from "@material-ui/core";
 
 import CloseOutlinedIcon from "@material-ui/icons/CloseOutlined";
-
 import MobileStepper from "@material-ui/core/MobileStepper";
 import Button from "@material-ui/core/Button";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
+
+// Custom Component
 import Choices from "../../components/ChoicesFormC/Choices";
+
+// Main Action Functions
 import {
   createNotification,
   submitAssignment,
 } from "../../actions/classroomActions";
 
-import {} from "notistack";
-
+// Styling
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiMobileStepper-root": {
@@ -44,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 const QuizForm = ({ assignment, formOpen, setFormOpen }) => {
   const theme = useTheme();
 
+  // Stepper Functionality
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
@@ -54,9 +58,13 @@ const QuizForm = ({ assignment, formOpen, setFormOpen }) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  // Stepper Functionality Exit
+
+  // All questions of assignment | QUIZ
   let questions = assignment.questions;
   questions = questions ? questions : [];
 
+  // Quiz Form Data to Submit Quiz
   const formData = [];
   for (let question of questions) {
     formData.push({ question: question.question, id: question.id, answer: "" });
@@ -64,16 +72,21 @@ const QuizForm = ({ assignment, formOpen, setFormOpen }) => {
 
   const [questionsFormData, setQuestionFormData] = useState(formData);
 
+  // Selected Question - data {question,choices}
   const currentQuestion =
     questions.length > activeStep ? questions[activeStep] : { choices: [] };
 
+  // Getting form data of selected question - {question,answer,question_id}
   let crntQuestionFormData = questionsFormData.find(
     (questionFormData) => questionFormData.id === currentQuestion.id
   );
 
+  // Null or Undefined Check
   crntQuestionFormData = crntQuestionFormData ? crntQuestionFormData : {};
 
+  // Runns when [assignment questions changes]
   useEffect(() => {
+    // Creating New Form Data
     const formData = [];
     for (let question of questions) {
       formData.push({
@@ -82,9 +95,12 @@ const QuizForm = ({ assignment, formOpen, setFormOpen }) => {
         answer: "",
       });
     }
+
     setQuestionFormData(formData);
+    setActiveStep(0);
   }, [assignment.questions]);
 
+  // Submiting Data
   const submitBtnHandler = () => {
     submitAssignment(
       {
@@ -95,6 +111,7 @@ const QuizForm = ({ assignment, formOpen, setFormOpen }) => {
     );
   };
 
+  // Runs when the quiz submits successfully
   const onSuccess = (gradedAssignmentObj) => {
     const { points, total_marks } = gradedAssignmentObj;
     createNotification(`You got ${points}/${total_marks}.`, {
@@ -164,7 +181,9 @@ const QuizForm = ({ assignment, formOpen, setFormOpen }) => {
         <Button
           variant="contained"
           color="primary"
-          disabled={activeStep !== questions.length - 1}
+          disabled={
+            questions.length == 0 ? false : activeStep !== questions.length - 1
+          }
           onClick={submitBtnHandler}
         >
           Submit

@@ -4,6 +4,7 @@ import {
   CLEAR_NOTIFICATIONS,
   CREATE_NOTIFICATION,
   LOAD_CLASSROOM,
+  LOAD_DASHBOARD_DATA,
   LOAD_SUBJECT_ASSIGNMENTS,
   LOAD_SUBJECT_EXAMS_RESULT,
   LOAD_SUBJECT_NOTES,
@@ -233,6 +234,23 @@ export const addLeaveRequest = (formData, setFormErrors) => {
             setFormErrors(err.response.data.errors);
           }
         }
+      }
+    });
+};
+
+export const loadDashboardData = () => {
+  const config = getTokenConfig();
+
+  axios
+    .get(`${API_URL}/api/student/classroom/dashboard`, config)
+    .then((resp) => {
+      if (resp.status == 200) {
+        const dashboard_data = resp.data;
+        dispatch({
+          type: LOAD_DASHBOARD_DATA,
+          payload: dashboard_data,
+        });
+        console.log(resp.data);
       }
     });
 };

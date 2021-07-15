@@ -8,12 +8,14 @@ import {
   LOAD_SUBJECT_NOTES,
   REMOVE_ASSIGNMENT,
   SET_CURRENT_SUBJECT,
+  LOAD_DASHBOARD_DATA,
 } from "../actions/types";
 import {
   loadSubjectAssignmentsRe,
   removeAssignmentRe,
 } from "./utils/assignments";
 import { loadClassroomRe, setCurrentSubjectRe } from "./utils/classroom";
+import { loadDashboardDataRe } from "./utils/dashboard";
 import { loadSubjectNotesRe } from "./utils/notes";
 import { loadSujectExamsResultRe } from "./utils/subjectExamsResults";
 
@@ -28,10 +30,14 @@ const initialState = {
     subject_exams_results: [],
   },
   workDate: null,
-  timetable: [],
   ranking_data: [],
   results: [],
   notifications: [],
+  dashboard_data: {
+    timetable: [],
+    ranking_graph: [],
+    upcoming_exams: [],
+  },
 };
 
 const ClassroomReducer = (state = initialState, action) => {
@@ -65,6 +71,9 @@ const ClassroomReducer = (state = initialState, action) => {
 
     case LOAD_SUBJECT_EXAMS_RESULT:
       return loadSujectExamsResultRe(state, action);
+
+    case LOAD_DASHBOARD_DATA:
+      return loadDashboardDataRe(state, action);
     default:
       return state;
   }

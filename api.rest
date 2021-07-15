@@ -133,5 +133,5 @@ content-type: application/json
 
 
 ##################
-GET http://127.0.0.1:8001/api/classroom/dashboard_data
+GET http://127.0.0.1:8001/api/classroom/dashboard
 Authorization: Token 3b1269b3876e9dcec743f4242a407295e9abfbef4ca5fab325ce2f634c7c94df

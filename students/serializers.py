@@ -151,20 +151,24 @@ class LeaveRequestSerializer(ModelSerializer):
     class Meta:
         model = LeaveRequest
         # fields = "__all__"
-        exclude=("student",)
+        exclude = ("student",)
 
 
-
-## Student Dashboard Data
+# Student Dashboard Data
 
 class SubjectEntrySerializer(ModelSerializer):
+    subject_name = serializers.SerializerMethodField()
+
+    def get_subject_name(self, entryObj):
+        return entryObj.subject.name
+
     class Meta:
-        model=SubjectEntry
-        fields="__all__"
+        model = SubjectEntry
+        fields = "__all__"
 
 
 class ExamSerializer(ModelSerializer):
 
     class Meta:
-        model=Exam
-        fields="__all__"
+        model = Exam
+        fields = "__all__"

@@ -2,7 +2,11 @@ import React, { useEffect, useRef } from "react";
 import { Grid, Paper, Typography, makeStyles } from "@material-ui/core";
 import Sidebar from "../components/Sidebar";
 import Notifications from "../components/Notifications";
-import { createNotification, loadClassroom } from "../actions/classroomActions";
+import {
+  createNotification,
+  loadClassroom,
+  loadDashboardData,
+} from "../actions/classroomActions";
 
 // Page
 import Classroom from "./Classroom";
@@ -28,6 +32,7 @@ function Dashboard() {
   useEffect(() => {
     createNotification("Classroom Loading");
     loadClassroom();
+    loadDashboardData();
   }, ["input"]);
 
   const classes = useStyles();
