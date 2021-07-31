@@ -50,6 +50,7 @@ const SubjectExamResults = () => {
           </Grid>
         </Grid>
       </Grid>
+
       <Grid container className={classes.resultRowsContainer}>
         {subject_results_list.map((result_obj) => {
           return (
@@ -60,6 +61,8 @@ const SubjectExamResults = () => {
             />
           );
         })}
+
+        {subject_results_list.length === 0 ? "No Results are Declared" : ""}
       </Grid>
     </div>
   );

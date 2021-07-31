@@ -10,7 +10,7 @@ from django.shortcuts import get_object_or_404
 
 
 # Models
-from teachers.models import Assignment, Document, DocumentResult, Exam, Notes, Question, Student, Subject, SubjectEntry, TimeTable
+from teachers.models import Assignment, Document, DocumentResult, Exam, LeaveRequest, Notes, Question, Student, Subject, SubjectEntry, TimeTable
 from teachers.models import GradedAssignment
 
 # Serializers
@@ -239,9 +239,20 @@ class SubjectExamsResultAPI(APIView):
 
 class LeaveRequestAPI(ModelViewSet):
     permission_classes = [IsAuthenticated]
+    serializer_class = LeaveRequestSerializer
+
+    def get_queryset(self):
+        student = get_student(self.request)
+        leave_requests = LeaveRequest.objects.filter(student=student)
+
+        return leave_requests
 
     def list(self, request, *args, **kwargs):
-        pass
+        leave_requests = self.get_queryset()
+        leave_requests_data = LeaveRequestSerializer(
+            leave_requests, many=True).data
+
+        return Response(leave_requests_data)
 
     def create(self, request, *args, **kwargs):
         data = request.data

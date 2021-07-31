@@ -193,15 +193,20 @@ export const loadSubjectExamResults = (subject_pk) => {
 
   const loadSubjectResultsURL = `${API_URL}/api/student/classroom/subjectexamsresult?subject_pk=${subject_pk}`;
 
-  axios.get(loadSubjectResultsURL, config).then((resp) => {
-    if (resp.status == 200) {
-      const subectResults = resp.data;
-      dispatch({
-        type: LOAD_SUBJECT_EXAMS_RESULT,
-        payload: subectResults,
-      });
-    }
-  });
+  axios
+    .get(loadSubjectResultsURL, config)
+    .then((resp) => {
+      if (resp.status == 200) {
+        const subectResults = resp.data;
+        dispatch({
+          type: LOAD_SUBJECT_EXAMS_RESULT,
+          payload: subectResults,
+        });
+      }
+    })
+    .catch((err) => {
+      createNotification("Something went wrong", { variant: "error" });
+    });
 };
 
 export const addLeaveRequest = (formData, setFormErrors) => {
@@ -252,5 +257,22 @@ export const loadDashboardData = () => {
         });
         console.log(resp.data);
       }
+    });
+};
+
+export const loadLeaveRequests = (setLeaveRequests) => {
+  const config = getTokenConfig();
+
+  axios
+    .get(`${API_URL}/api/student/classroom/leaverequests`, config)
+    .then((resp) => {
+      if (resp.status == 200) {
+        const leaverequests = resp.data;
+        setLeaveRequests(leaverequests);
+        console.log(leaverequests);
+      }
+    })
+    .catch((err) => {
+      createNotification("Something went wrong", { variant: "error" });
     });
 };

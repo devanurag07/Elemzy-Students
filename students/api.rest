@@ -68,3 +68,9 @@ GET    http://localhost:8001/api/student/classroom/dashboard
 Authorization: Token 72134398c00724d529e39f2720133e71e44d9bc3adac50a1ffc03174e5214644
 Content-Type: application/json
 
+
+
+##################
+GET    http://localhost:8001/api/student/classroom/leaverequests
+Authorization: Token b5c22c9131b70b39c46150900a6435e9c3bcd87a6b113f9461a11679fdc536e7
+Content-Type: application/json
